@@ -79,7 +79,7 @@ cd <template_version>
 make <target>
 ```
 
-*PS1 **`C++` users** have to replace `CC = clang` with `CXX = g++` and `CFLAGS`
+*PS1 **`C++` users** have to replace `CC = gcc` with `CXX = g++` and `CFLAGS`
 with `CXXFLAGS`.*
 
 *PS2 feel free to **fork me** so as to remove everything that does not
@@ -260,7 +260,7 @@ NAME        := icecream
 SRCS        := main.c
 OBJS        := main.o
 
-CC          := clang
+CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror
 
 #------------------------------------------------#
@@ -475,7 +475,7 @@ NAME        := icecream
 SRCS        := main.c
 OBJS        := main.o
 
-CC          := clang
+CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror
 CPPFLAGS    := -I .
 ```
@@ -633,7 +633,7 @@ SRCS        := \
 SRCS        := $(SRCS:%=$(SRC_DIR)/%)
 OBJS        := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-CC          := clang
+CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror
 CPPFLAGS    := -I include
 ```
@@ -790,7 +790,7 @@ BUILD_DIR   := .build
 OBJS        := $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 DEPS        := $(OBJS:.o=.d)
 
-CC          := clang
+CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror
 CPPFLAGS    := -MMD -MP -I include
 AR          := ar
@@ -805,7 +805,7 @@ ARFLAGS     := -r -c -s
 ```make
 #before                     #after
 main.o: main.c              main.o: main.c icecream.h
-    clang -c $< -o $@           clang -c $< -o $@
+    gcc -c $< -o $@           gcc -c $< -o $@
 ```
 
 - Doing this manually for multiple sources and headers is both tedious and error
@@ -1009,7 +1009,7 @@ BUILD_DIR   := .build
 OBJS        := $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 DEPS        := $(OBJS:.o=.d)
 
-CC          := clang
+CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror
 CPPFLAGS    := $(addprefix -I,$(INCS)) -MMD -MP
 LDFLAGS     := $(addprefix -L,$(dir $(LIBS_TARGET)))
@@ -1167,7 +1167,7 @@ print-%:
 
 - The `print-<variable>` that works like `print-<rule>` will **print the value
   of an arbitrary variable**, for example a `make print-CC` will output
-  `CC=clang`.
+  `CC=gcc`.
 
 ```make
 .PHONY: update

@@ -16,7 +16,7 @@ NAME        := icecream
 SRCS        := main.c
 OBJS        := main.o
 
-CC          := clang
+CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror
 CPPFLAGS    := -I .
 
