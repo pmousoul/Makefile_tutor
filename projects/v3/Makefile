@@ -16,18 +16,17 @@ NAME        := icecream
 # CPPFLAGS  preprocessor flags
 
 SRC_DIR     := src
+INC_DIR     := include
 OBJ_DIR     := obj
-SRCS        := \
-	main.c          \
-	arom/coco.c     \
-	base/milk.c     \
-	base/water.c
-SRCS        := $(SRCS:%=$(SRC_DIR)/%)
+SRCS        := $(shell find $(SRC_DIR) -name '*.c')
+INCS        := $(shell find $(INC_DIR) -type d)
 OBJS        := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+DEPS        := $(OBJS:.o=.d)
 
 CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror
-CPPFLAGS    := -I include
+INC_FLAGS   := $(addprefix -I,$(INCS))
+CPPFLAGS    := -MMD -MP $(INC_FLAGS)
 
 #------------------------------------------------#
 #   UTENSILS                                     #
@@ -36,7 +35,7 @@ CPPFLAGS    := -I include
 # MAKEFLAGS make flags
 # DIR_DUP   duplicate directory tree
 
-RM          := rm -f
+RM          := rm -rf
 MAKEFLAGS   += --no-print-directory
 DIR_DUP     = mkdir -p $(@D)
 
@@ -61,10 +60,13 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 	$(info CREATED $@)
 
+-include $(DEPS)
+
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(OBJS) $(DEPS)
 
 fclean: clean
+	$(RM) $(OBJ_DIR)
 	$(RM) $(NAME)
 
 re:
